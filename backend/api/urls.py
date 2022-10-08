@@ -1,14 +1,9 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from . import views
-from rest_framework_simplejwt.serializers import TokenRefreshSerializer
-
-app_name = "api"
 
 urlpatterns = [
-    path('login/', views.LoginView.as_view()),
-    path('token/', TokenObtainPairView.as_view()),
+    path("login/", views.LoginView.as_view()),
+    path("create-inbox/", views.CreateInbox.as_view()),
+    path("fetch-inbox/", views.FetchInbox.as_view()),
 
-
-    path("test/", views.test)
 ]

@@ -1,9 +1,8 @@
-from curses import raw
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class CustomAuthentication(JWTAuthentication):
     def authenticate(self, request):
-        raw_token = request.COOKIES.get('access_token')
+        raw_token = request.COOKIES.get('access_token_http_only')
 
         if raw_token is None:
             return None
