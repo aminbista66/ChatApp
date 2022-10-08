@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from json import load
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,13 +86,30 @@ ASGI_APPLICATION = "core.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+import os
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'django',
+            'ENFORCE_SCHEMA': False, ## CHANGE DURING PRODUCTION
+            'CLIENT': {
+                'host': os.environ.get("MONGODB_CONNECTION_STRING"),
+                'username': "aminbista",
+                "password": "nhawk4893",
+            },
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -138,7 +156,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'host': [('127.0.0.1', 6379)]
+            'hosts': [('127.0.0.1', 6379)]
         }
     }
 }
@@ -156,7 +174,7 @@ AUTH_USER_MODEL = "api.User"
 
 from datetime import timedelta
 SIMPLE_JWT = {
-  'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+  'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
   'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
   'ROTATE_REFRESH_TOKENS': False,
   'BLACKLIST_AFTER_ROTATION': True,

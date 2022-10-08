@@ -1,8 +1,12 @@
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework import permissions
+from .mongodb  import MongoDB
+from .user import get_user_queryset
+from bson.objectid import ObjectId
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
@@ -15,7 +19,8 @@ class LoginView(APIView):
         if user is not None:
             if user.is_active:
                 raw_token = RefreshToken.for_user(user)
-                response.set_cookie("access_token", str(raw_token.access_token), httponly=True, secure=False, samesite="Lax")
+                response.set_cookie("access_token_http_only", str(raw_token.access_token), httponly=True, secure=False, samesite="Lax")
+                response.set_cookie("access_token", str(raw_token.access_token), httponly=False, secure=False, samesite="Lax")
                 response.set_cookie("refresh_token", str(raw_token), httponly=True, secure=False, samesite="Lax")
 
                 response_data = {
@@ -33,4 +38,5 @@ class LoginView(APIView):
         else:
             return Response({"Failed": "Invalid Username or Password"}, status=404)
 
-    
+def test(request):
+    return render(request, "api/index.html", {})

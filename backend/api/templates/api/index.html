@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Test View</h1>
+
+    <script>
+        const access_token = document.cookie.split(";")[0].split("=")[1]
+        const inbox_id = "633ff26d9aa255d2dfbb58f5"
+        const socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${inbox_id}/?token=${access_token}`)
+        console.log(socket, access_token)
+    </script>
+</body>
+</html>

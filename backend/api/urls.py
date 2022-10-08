@@ -7,5 +7,8 @@ app_name = "api"
 
 urlpatterns = [
     path('login/', views.LoginView.as_view()),
-    path('token/', TokenObtainPairView.as_view())
+    path('token/', TokenObtainPairView.as_view()),
+
+
+    path("test/", views.test)
 ]
