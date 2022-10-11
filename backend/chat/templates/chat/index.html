@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    INDEX PAGE
+
+    <input type="text" id="message">
+
+    <button id="send-btn">send</button>
+    <button id="close">close</button>
+
+    <script>
+        const btn = document.getElementById("send-btn")
+        const inputDOM = document.getElementById("message")
+        const socket = new WebSocket(`ws://${location.host}/ws/chat/63429f89d41f22425792d746/?${document.cookie.split(";")[1]}`);
+
+        document.getElementById("close").onclick = (e) => {
+            socket.close()
+        }
+
+        socket.onmessage = (e) => {
+            console.log(JSON.parse(e.data))
+        }
+        
+        socket.onclose = (e) => {
+            console.log(e)
+        }
+
+        btn.onclick = function(e) {
+            socket.send(JSON.stringify({
+                message: inputDOM.value
+            }))
+        }
+        
+    </script>
+</body>
+</html>

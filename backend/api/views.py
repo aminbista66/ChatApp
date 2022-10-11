@@ -5,16 +5,24 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework import permissions
+from rest_framework.generics import CreateAPIView
+
+from api.models import User
 from .user import get_user_queryset
 from bson.objectid import ObjectId
 from .mongodb import database
 from django.conf import settings
 from bson import json_util
-from django.http import JsonResponse
+from .serializers.users import UserCreateSerializer
 
 db = database.connect_db(settings.MONGODB["DB"])
 
-class LoginView(APIView):
+class RegisterAPI(CreateAPIView):
+    serializer_class = UserCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class LoginAPI(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request, *args, **kwargs):
         data = request.data
@@ -46,30 +54,33 @@ class LoginView(APIView):
             return Response({"Failed": "Invalid Username or Password"}, status=404)
 
 
-class CreateInbox(APIView):
+class CreateInboxAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         data = request.data
         user = get_user_queryset(request.COOKIES["access_token"])
-        print(user)
-        if user.exists():
+        _with = User.objects.filter(username=data['username'])
+
+        if _with.exists():
             db.inbox.insert_one({
                 "users": [
                     {
                         "_id": ObjectId(user.first().document_id)
                     },
                     {
-                        "_id": ObjectId(data["with"])
+                        "_id": ObjectId(_with.first().document_id)
                     }
-                ]
+                ],
+                "online_users": []
             })
 
             return Response({"success": "Inbox created"}, status=200)
         
         return Response({"failed": "user doesnot exists"}, status=404)
 
-class FetchInbox(APIView):
+
+class FetchInboxAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -82,3 +93,6 @@ class FetchInbox(APIView):
             return Response({"inboxes": [i for i in doc]})
         
         return Response({"failed": "user doesnot exists for given token."}, status=404)
+
+class SearchAPI(APIView):
+    pass
