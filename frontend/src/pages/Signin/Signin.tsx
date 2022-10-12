@@ -19,14 +19,15 @@ import {
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../../components";
 import { ArrowBackIcon, ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
-import { AppDispatch } from "../../store";
-import { useDispatch } from "react-redux";
+
 import { UserCredential } from "../../utils/types";
 import { login } from "../../utils/api/auth";
+import { useNavigate } from "react-router-dom";
+
 
 export const Signin: FC = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState<UserCredential>({
     username: "",
     password: "",
@@ -96,7 +97,10 @@ export const Signin: FC = () => {
                   <Link color={"blue.400"}>Forgot password?</Link>
                 </Stack>
                 <Button
-                  onClick={() => login(formData)}
+                  onClick={() => {
+                    login(formData);
+                    navigate("/");
+                  }}
                   bg={"blue.400"}
                   color={"white"}
                   _hover={{
