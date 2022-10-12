@@ -14,6 +14,9 @@ from .mongodb import database
 from django.conf import settings
 from bson import json_util
 from .serializers.users import UserCreateSerializer
+from rest_framework_simplejwt.tokens import UntypedToken
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+
 
 db = database.connect_db(settings.MONGODB["DB"])
 
@@ -95,4 +98,34 @@ class FetchInboxAPI(APIView):
         return Response({"failed": "user doesnot exists for given token."}, status=404)
 
 class SearchAPI(APIView):
-    pass
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        query = request.query_params["q"]
+
+        search_query = {
+            "$search": {
+                "index": "text_search",
+                "autocomplete":{
+                    "query": query,
+                    "path": "username",
+                    "tokenOrder": "sequential",
+                    "fuzzy": {}
+                }
+            }
+        }
+        result = db.user_details.aggregate([search_query])
+        doc = json.loads(json_util.dumps(result))
+        return Response({"results": [i for i in doc]}, status=200)
+
+class TokenVerify(APIView):
+    def get(self, request, *args, **kwargs):
+        raw_token = request.COOKIES.get("access_token_http_only")
+
+        try:
+            UntypedToken(raw_token)
+        except (InvalidToken, TokenError) as e:
+            print(e)
+            return Response({"verified": False}, status=403)
+
+        return Response({"verified": True}, status=200)
