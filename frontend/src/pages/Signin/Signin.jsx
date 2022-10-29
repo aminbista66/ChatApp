@@ -18,22 +18,20 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../../components";
-import { ArrowBackIcon, ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
-
-import { UserCredential } from "../../utils/types";
-import { login } from "../../utils/api/auth";
+import { ArrowBackIcon, ViewOffIcon, ViewIcon, WarningIcon } from "@chakra-ui/icons";
+import { useGlobalAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 
-export const Signin: FC = () => {
+export const Signin = () => {
+  const { login } = useGlobalAuthContext();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [formData, setFormData] = useState<UserCredential>({
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-
-
+  const [axiosError, setAxiosError] = useState("");
 
   return (
     <VStack align="stretch" bgColor={useColorModeValue("gray.50", "gray.800")}>
@@ -60,6 +58,7 @@ export const Signin: FC = () => {
             p={8}
           >
             <Stack spacing={4}>
+              {axiosError != ""? <Text color={"red.500"} fontSize="16px" fontWeight={"bold"}><WarningIcon/> {axiosError}</Text>: <></>}
               <FormControl id="username">
                 <FormLabel>Username</FormLabel>
                 <Input
@@ -98,8 +97,10 @@ export const Signin: FC = () => {
                 </Stack>
                 <Button
                   onClick={() => {
-                    login(formData);
-                    navigate("/");
+                    login(formData).then(res => {
+                      localStorage.setItem("user_data", JSON.stringify(res.data.data));
+                      navigate("/");
+                    }).catch(err => setAxiosError(err.response.data.Failed));
                   }}
                   bg={"blue.400"}
                   color={"white"}

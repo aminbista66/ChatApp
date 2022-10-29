@@ -1,3 +1,4 @@
+from email.policy import default
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -8,6 +9,8 @@ import os,binascii
 class User(AbstractUser):
 
     document_id = models.CharField(max_length=225, default="")
+    display_picture  = models.URLField(null=False, default="", blank=True)
+    cover_picture = models.URLField(null=False, blank=True, default="")
 
     def generate_document_id(self):
         if self.document_id == "":
