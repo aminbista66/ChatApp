@@ -22,7 +22,7 @@ export default function AuthProvider({ children }) {
   }
 
   const logout = () => {
-    console.log("INSIDE LOGOUT")
+    localStorage.removeItem("user_data")
     return request({
       url: 'api/logout/',
       method: "get",

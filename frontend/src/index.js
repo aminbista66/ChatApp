@@ -5,6 +5,8 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './context/AuthContext';
 import UserProvider from './context/UserContext';
+import { ChatProvider } from './context/ChatContext';
+
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
@@ -14,7 +16,9 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <UserProvider>
-          <App />
+          <ChatProvider>
+            <App />
+          </ChatProvider>
         </UserProvider>
       </AuthProvider>
     </BrowserRouter>

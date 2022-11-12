@@ -12,7 +12,6 @@ class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.inbox_id = self.scope["url_route"]["kwargs"]["inbox_id"]
         self.db = database.connect_db("chatapp")
-
         if len(list(self.db.inbox.find({"_id": ObjectId(self.inbox_id)}))) == 0:
             self.close()
             return 
@@ -28,6 +27,7 @@ class ChatConsumer(WebsocketConsumer):
         self.accept()  
 
         self.user = get_user_queryset(self.token).first()
+        print(self.user)
         self.username = self.user.username
 
         try:
@@ -71,3 +71,4 @@ class ChatConsumer(WebsocketConsumer):
             "message": event["message"]  
         })
         self.send(text_data=json.dumps(event))
+

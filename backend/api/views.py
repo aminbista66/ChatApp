@@ -1,4 +1,5 @@
 import json
+from os import remove
 from xml.dom.minidom import Document
 from django.shortcuts import render
 from rest_framework.response import Response
@@ -117,6 +118,7 @@ class FetchInboxAPI(APIView):
             doc = json.loads(json_util.dumps(inbox_doc))
 
             for i in doc:
+                target = []
                 for j in i['users']:
                     user_item = User.objects.get(document_id=j["_id"]["$oid"])
                     if user_item.username == user.username:
@@ -126,8 +128,16 @@ class FetchInboxAPI(APIView):
                     k["name"] = f"{u.first_name} {u.last_name}"
                     k["dp"] = u.display_picture
                     k['doc_id'] = u.document_id
-                    k.pop("_id")               
-                
+                    k.pop("_id")      
+                for l in i["online_users"]:
+                    if l["$oid"] != user.document_id:
+                        if(len(target) == 0):
+                            target.append(l)
+                        else:
+                            break
+                i.pop("online_users")
+                i["online_users"] = target
+            print(doc)
             return Response({"inboxes": [i for i in doc]})
 
         return Response({"failed": "user doesnot exists for given token."}, status=404)
@@ -152,6 +162,7 @@ class SearchAPI(APIView):
         }
         result = db.user_details.aggregate([search_query])
         doc = json.loads(json_util.dumps(result))
+        print(doc)
         return Response({"results": [i for i in doc]}, status=200)
 
 

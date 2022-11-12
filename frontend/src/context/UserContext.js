@@ -4,9 +4,9 @@ import { request } from '../utils/api';
 const UserContext = createContext('');
 
 export default function UserProvider({ children }) {
-  const [docID, setDocID] = useState('');
+  const [refreshInboxFetch, setRefreshInboxFetch] = useState(false);
 
-  return <UserContext.Provider value={{docID, setDocID}}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{refreshInboxFetch, setRefreshInboxFetch }}>{children}</UserContext.Provider>;
 }
 
 export function useGlobalUserContext() {

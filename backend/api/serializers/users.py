@@ -11,7 +11,8 @@ class DocumentSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
-            "document_id"
+            "document_id",
+            "display_picture",
         )
 
 class UserCreateSerializer(serializers.ModelSerializer):
