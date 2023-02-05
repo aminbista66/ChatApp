@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import { containerClasses } from "@mui/system";
@@ -10,6 +10,9 @@ const Container = styled.div`
   align-items: center;
   gap: 10px;
   padding: 5px 20px;
+  @media screen and (max-width:1080px){
+    padding: 10px;
+  }
 `;
 
 const Avatar = styled.img`
@@ -58,6 +61,13 @@ const RightAction = styled.div`
     display: none;
   }
 `;
+const RightActionWrapper = styled.div`
+  background-color: transparent;
+
+  @media screen and (max-width: 720px) {
+    display: none;
+  }
+`;
 const Button = styled.button`
   background-color: #eeefef;
   width: 48px;
@@ -100,11 +110,20 @@ const AvatarBadge = styled.div`
   border: 1px solid white;
 `;
 
+const SearchResultContainer = styled.div`
+  background-color: red;
+  height: 50px;
+  width: 54%;
+  margin-top: 2px;
+  position: absolute;
+`;
+
 export const Header = () => {
+  const [search, setSearch] = useState('');
   return (
     <Container>
       <AvatarWrapper>
-        <AvatarBadge/>
+        <AvatarBadge />
         <Avatar src="https://images.unsplash.com/photo-1666933000057-bd414f5e214e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" />
       </AvatarWrapper>
       <Details>
@@ -112,12 +131,17 @@ export const Header = () => {
           <SubText>Hello</SubText>
           <Text>Jhane Doe</Text>
         </TextWrapper>
-        <RightAction>
-          <Input placeholder="find people" />
-          <Button>
-            <SearchIcon />
-          </Button>
-        </RightAction>
+        <RightActionWrapper>
+
+          <RightAction>
+            <Input placeholder="find people" onChange={(e) => setSearch(e.target.value)} />
+            <Button>
+              <SearchIcon />
+            </Button>
+          </RightAction>
+          {search.length ? <SearchResultContainer />: <></>}          
+        </RightActionWrapper>
+
       </Details>
     </Container>
   );

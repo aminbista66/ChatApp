@@ -17,7 +17,7 @@ const EasterWrapper = styled.div`
   gap: 10px;
   align-items: center;
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 1080px) {
     justify-content: center;
     border-bottom: 1px solid #e6e6e6;
   }
@@ -37,17 +37,20 @@ const EasterText = styled.span`
   color: #9da4a8;
   font-size: 12px;
   font-weight: 600;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 1080px) {
     display: none;
   }
 `;
 
 const UserList = styled.div`
   height: 100%;
-  padding: 10px 20px;
+  padding: 10px;
   overflow: scroll;
   padding-bottom: 100px;
   max-height: calc(100vh - 200px);
+  @media screen and (max-width:1080px){
+    padding: 2px;
+}
 `;
 
 export const Sidebar = () => {
@@ -62,104 +65,6 @@ export const Sidebar = () => {
       </EasterWrapper>
 
       <UserList>
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
         <UserCard />
       </UserList>
     </Container>

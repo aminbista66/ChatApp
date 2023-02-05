@@ -63,6 +63,9 @@ const Wrapper = styled.div`
 display: flex;
 align-items: center;
 gap: 10px;
+@media screen and (max-width:1080px){
+    gap: 0;
+  }
 `;
 const Container = styled.div`
   height: 84px;
@@ -75,7 +78,7 @@ const Container = styled.div`
 
   &:hover {
     background-color: #4784DE;
-    transition: .25s ease-in-out all;
+    transition: .1s ease-in-out all;
   }
   &:hover ${Text} {
     color: white;

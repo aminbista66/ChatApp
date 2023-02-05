@@ -8,10 +8,15 @@ const Container = styled.div`
   width: 100vw;
 `;
 const Left = styled.div`
-  flex: 2;
+  flex: 1.3;
+
+  @media screen and (max-width:1080px){
+    transition: .5s ease-in-out;
+    flex: .5;
+  }
 `;
 const Right = styled.div`
-  flex: 5;
+  flex: 4;
   background-color: gray;
 `;
 
