@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
-import { containerClasses } from "@mui/system";
+import { List, ListItem, ListItemAvatar } from "@mui/material";
 
 const Container = styled.div`
   height: 84px;
@@ -56,7 +56,6 @@ const RightAction = styled.div`
   background-color: #eeefef;
   border-radius: 25px;
   padding-left: 20px;
-
   @media screen and (max-width: 720px) {
     display: none;
   }
@@ -110,14 +109,6 @@ const AvatarBadge = styled.div`
   border: 1px solid white;
 `;
 
-const SearchResultContainer = styled.div`
-  background-color: red;
-  height: 50px;
-  width: 54%;
-  margin-top: 2px;
-  position: absolute;
-`;
-
 export const Header = () => {
   const [search, setSearch] = useState('');
   return (
@@ -139,7 +130,10 @@ export const Header = () => {
               <SearchIcon />
             </Button>
           </RightAction>
-          {search.length ? <SearchResultContainer />: <></>}          
+          {search.length ? <List sx={{position: 'absolute', width: '242px', maxWidth: 360, bgcolor: 'red'}}>
+            
+
+          </List> : <></>}
         </RightActionWrapper>
 
       </Details>
