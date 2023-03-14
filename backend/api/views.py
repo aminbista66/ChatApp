@@ -137,7 +137,7 @@ class FetchInboxAPI(APIView):
                             break
                 i.pop("online_users")
                 i["online_users"] = target
-            print(doc)
+            print(doc)  
             return Response({"inboxes": [i for i in doc]})
 
         return Response({"failed": "user doesnot exists for given token."}, status=404)
@@ -183,6 +183,6 @@ class UserDetailAPI(RetrieveAPIView):
     lookup_field = "document_id"
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserDetailSerializer
-    
+        
     def get_queryset(self):
         return User.objects.filter(document_id=self.kwargs["document_id"])
