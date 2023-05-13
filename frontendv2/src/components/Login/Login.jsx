@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import loginSVG from "../../assets/login.jpg";
@@ -111,7 +111,7 @@ export const Login = () => {
 
   return (
     <Container>
-      <AuthAnimatedShape/>
+      <AuthAnimatedShape />
       <Left>
         <Wrapper>
           <Title>LOGIN</Title>

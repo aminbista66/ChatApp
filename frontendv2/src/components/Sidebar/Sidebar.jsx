@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Header } from "./Header";
-import GroupsIcon from "@mui/icons-material/Groups";
+import { GroupsIcon } from "@mui/icons-material";
 import { UserCard } from "./UserCard";
 
 const Container = styled.div`
@@ -63,7 +63,7 @@ export const Sidebar = () => {
         </Easter>
         <EasterText>All Message</EasterText>
       </EasterWrapper>
-
+      
       <UserList>
         <UserCard />
       </UserList>
