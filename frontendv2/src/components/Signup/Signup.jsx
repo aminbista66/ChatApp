@@ -53,7 +53,7 @@ const Input = styled.input`
   font-weight: 500;
   background: transparent;
 
-  @media screen and (max-width: 600px){
+  @media screen and (max-width: 600px) {
     padding: 10px;
   }
 
@@ -83,7 +83,7 @@ const Title = styled.h2`
   margin: 10px 0;
   color: #43464a;
 
-  @media screen and (max-width: 600px){
+  @media screen and (max-width: 600px) {
     font-size: 32px;
   }
 `;
@@ -120,7 +120,7 @@ export const Signup = () => {
 
   return (
     <Container>
-        <AuthAnimatedShape/>
+      <AuthAnimatedShape />
       <Left>
         <Wrapper>
           <Title>SIGNUP</Title>
@@ -197,8 +197,7 @@ export const Signup = () => {
               justifyContent: "center",
               margin: "20px 0 0 0",
             }}
-          >
-          </div>
+          ></div>
           <Button>Sign up</Button>
           <SubTitle style={{ textAlign: "center", marginTop: "20px" }}>
             Already have an account?

@@ -3,11 +3,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
-import os,binascii
+import os, binascii
 
 
 class User(AbstractUser):
-
     document_id = models.CharField(max_length=225, default="")
     display_picture  = models.URLField(null=False, default="", blank=True)
     cover_picture = models.URLField(null=False, blank=True, default="")
@@ -31,7 +30,7 @@ def create_document(sender, instance, created, **kwargs):
     data = DocumentSerializer(instance).data
     data["_id"] = ObjectId(data["document_id"])
     data.pop("document_id")
-    
+
     if created:
         db.user_details.insert_one(data)
 
@@ -39,6 +38,5 @@ def create_document(sender, instance, created, **kwargs):
         document = db.user_details.find({"_id": data["_id"]})
         if len(list(document)) == 0:
             db.user_details.insert_one(data)
-
 
 post_save.connect(create_document, sender=User)

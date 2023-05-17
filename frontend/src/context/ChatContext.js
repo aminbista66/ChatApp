@@ -6,12 +6,13 @@ export const ChatProvider = ({ children }) => {
   const [showInbox, setShowInbox] = useState(false);
   const [currentInboxID, setCurrentInboxID] = useState('');
 
-
   const startChat = ID => {
     setShowInbox(true);
     setCurrentInboxID(ID);
   };
-  console.log(currentInboxID)
+
+  console.log(currentInboxID);
+
   const stopChat = () => {
     setShowInbox(false);
     setCurrentInboxID('');

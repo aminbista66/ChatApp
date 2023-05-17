@@ -1,6 +1,5 @@
 import json
 from os import remove
-from xml.dom.minidom import Document
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -183,6 +182,6 @@ class UserDetailAPI(RetrieveAPIView):
     lookup_field = "document_id"
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserDetailSerializer
-        
+
     def get_queryset(self):
         return User.objects.filter(document_id=self.kwargs["document_id"])

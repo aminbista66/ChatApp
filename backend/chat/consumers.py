@@ -14,8 +14,7 @@ class ChatConsumer(WebsocketConsumer):
         self.db = database.connect_db("chatapp")
         if len(list(self.db.inbox.find({"_id": ObjectId(self.inbox_id)}))) == 0:
             self.close()
-            return 
-            
+            return
 
         self.token = self.scope["query_string"].decode("utf-8").split("=")[1]
         try:
@@ -23,33 +22,33 @@ class ChatConsumer(WebsocketConsumer):
         except (InvalidToken, TokenError) as e:
             print(e)
             self.close()
-            
-        self.accept()  
+
+        self.accept()
 
         self.user = get_user_queryset(self.token).first()
         print(self.user)
         self.username = self.user.username
 
         try:
-            self.db.inbox.update_one({"_id": ObjectId(self.inbox_id)}, {"$push": {"online_users": ObjectId(self.user.document_id)}})
-         
+            self.db.inbox.update_one({"_id": ObjectId(self.inbox_id)}, {
+                                     "$push": {"online_users": ObjectId(self.user.document_id)}})
+
         except Exception as e:
             print(e)
             self.close()
 
         async_to_sync(self.channel_layer.group_add)(
             self.inbox_id,
-            self.channel_name 
+            self.channel_name
         )
 
-
     def disconnect(self, code):
-        self.db.inbox.update_one({"_id": ObjectId(self.inbox_id)}, {"$pull": {"online_users": ObjectId(self.user.document_id)}})
+        self.db.inbox.update_one({"_id": ObjectId(self.inbox_id)}, {
+                                 "$pull": {"online_users": ObjectId(self.user.document_id)}})
         async_to_sync(self.channel_layer.group_discard)(
             self.inbox_id,
             self.channel_name
         )
-    
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -63,12 +62,10 @@ class ChatConsumer(WebsocketConsumer):
             }
         )
 
-    
     def private_inbox_chat(self, event):
         self.db.messages.insert_one({
             "inbox_id": ObjectId(event["inbox_id"]),
             "sender": event["sender"],
-            "message": event["message"]  
+            "message": event["message"]
         })
         self.send(text_data=json.dumps(event))
-
